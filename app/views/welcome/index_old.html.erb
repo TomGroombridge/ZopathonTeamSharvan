@@ -1,0 +1,83 @@
+<%
+  @widget_counter ||= 0
+  quote_increment = 100
+  loan_size = 1000
+  term = defined?(term) ? term : nil
+  source = 'referrer-organic'
+  loan_term = 60
+  loan_purpose = nil
+%>
+
+<div class="calculator calculator--simple">
+
+  <% if defined?(reasons) %>
+    <div class="wrap">
+      <ul class="ticked">
+        <% reasons.each do |reason| %>
+          <li><%= reason %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="calculator__innerContainer">
+    <form action="/borrow" method="get" class="calculator__form">
+      <fieldset class="calculator__fieldset">
+        <div class="calculator__top">
+
+          <p class="calculator__amountHeader">
+            <span class="calculator__amountText">I want to get a loan for</span>
+            <span class="calculator__amountNumber">£<input class="calculator__amountInput borrow-amount amount-input"
+                      type="number"
+                      name="amount"
+                      value="<%= loan_size %>"
+                      data-maxlength="5"
+                      maxlength="5"
+                      data-trackinglabel="Amount"
+                      step="<%= quote_increment %>"
+                      min="1000"
+                      max="25000"
+                      id="amount"
+                      data-automation="<%=  "ZA.input_amount_#{@widget_counter}" %>"
+                      data-trackinglabel="Amount"
+                      name="amount"
+                      title="Amount" />
+            </span>
+          </p>
+
+          <p class="calculator__amountHeader">
+            <span class="calculator__amountText">over a period of</span>
+              <span class="calculator__amountDropdown">
+                  <select name="term"
+                          title="Term"
+                          data-automation="<%= "ZA.term_amount_#{@widget_counter}"  %>"
+                          data-trackinglabel="Term"
+                          class="calculator__amountSelect term-input">
+                    <option value="12">1 year</option>
+                    <option value="24">2 years</option>
+                    <option value="36">3 years</option>
+                    <option value="48">4 years</option>
+                    <option value="60">5 years</option>
+                  </select>
+              </span>
+          </p>
+
+        </div>
+        <div class="calculator__content">
+
+          <%= hidden_field :zp_source, source %>
+          <%= hidden_field :purpose, loan_purpose %>
+
+          <div class="calculator__quoteContainer">
+            <input type="submit" class="calculator__getQuote button" value="Get my personalised rates" data-automation="<%=  "ZA.submit_get_a_quote_#{@widget_counter}" %>"/>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+
+</div>
+
+<%
+  @widget_counter += 1
+%>
